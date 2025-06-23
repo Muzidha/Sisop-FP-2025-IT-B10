@@ -16,11 +16,13 @@
 
 ## Kelompok x
 
-Nama                            | NRP
-Erlangga Valdhio Putra Sulistio | 5027241030
-Bima Aria Perthama              | 5027241060
-Muhammad Ardiansyah Tri Wibowo  | 5027241091
-Muhammad Ziddan Habibi          | 5027241122
+| Nama                              | NRP         |
+|-----------------------------------|-------------|
+| Erlangga Valdhio Putra Sulistio  | 5027241030  |
+| Bima Aria Perthama               | 5027241060  |
+| Muhammad Ardiansyah Tri Wibowo  | 5027241091  |
+| Muhammad Ziddan Habibi          | 5027241122  |
+
 
 ## Deskripsi Soal
 
