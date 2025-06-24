@@ -36,8 +36,11 @@ Memahami race condition pada operasi check-then-act. Program membuat 2 thread; t
 
 Struktur repository:
 ```
-.
-..
+logging-fuse/
+├── logging_fs.c           # Source code utama
+├── Makefile              # Build configuration
+├── test_logging_fs.sh    # Script testing
+
 ```
 
 ## Pengerjaan
