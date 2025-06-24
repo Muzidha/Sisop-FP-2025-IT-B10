@@ -52,11 +52,32 @@ logging-fuse/
 
 **Teori**
 
-...
+1. FUSE (Filesystem in Userspace)
+FUSE memungkinkan pengguna membuat sistem berkas tanpa mengubah kernel. FUSE bekerja dengan menjalankan kode di ruang pengguna dan menghubungkannya ke kernel melalui modul FUSE.
+
+2. System Call dan Wrapping
+Fungsi seperti `mkdir`, `open`, `read`, `write`, `truncate`, dan `unlink` adalah system call yang di-wrap oleh FUSE, lalu ditambahkan logging.
+
+3. Logging dan Thread Safety
+Penulisan log dilakukan secara sinkron menggunakan `pthread_mutex` agar thread-safe, mencegah race condition.
+
+4. Path Translation dan Virtual File System (VFS)
+`Fungsi get_full_path()` menerjemahkan path virtual ke path aktual di direktori target, mengimplikasikan pemahaman tentang konsep VFS dan path abstraction.
+
+5. Signal Handling dan Resource Cleanup
+Penanganan sinyal (`SIGINT`, `SIGTERM`) untuk melakukan `cleanup()` adalah praktik penting dalam manajemen sumber daya (resource management) dalam sistem operasi.
 
 **Solusi**
 
-...
+1. Mounting direktori target ke mount point.
+
+2. Menangani semua operasi file standar: read, write, mkdir, chmod, rename, dll.
+
+3. Mencatat setiap operasi ke dalam file log dengan timestamp, jenis operasi, dan status.
+
+4. Menghindari race condition saat mencatat log dengan mutex (pthread_mutex_t).
+
+5. Menggunakan signal_handler untuk menangani terminasi sistem dan memastikan resource (log file, pointer) dibersihkan dengan benar.
 
 > Insert poin soal...
 
