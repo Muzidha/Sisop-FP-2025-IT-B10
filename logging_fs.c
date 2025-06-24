@@ -22,19 +22,18 @@
 #include <time.h>
 #include <pthread.h>
 
-// Global variables
+
 static char *target_dir = NULL;
 static char *log_file = NULL;
 static FILE *log_fp = NULL;
 static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-// Fungsi untuk mendapatkan path lengkap
 static void get_full_path(char fpath[PATH_MAX], const char *path) {
     strcpy(fpath, target_dir);
     strncat(fpath, path, PATH_MAX - strlen(target_dir));
 }
 
-// Fungsi untuk logging dengan thread safety
+
 static void log_operation(const char *operation, const char *path, const char *details) {
     pthread_mutex_lock(&log_mutex);
     
@@ -58,7 +57,7 @@ static void log_operation(const char *operation, const char *path, const char *d
     pthread_mutex_unlock(&log_mutex);
 }
 
-// FUSE operation: getattr
+
 static int logging_getattr(const char *path, struct stat *stbuf) {
     int res;
     char fpath[PATH_MAX];
@@ -75,7 +74,7 @@ static int logging_getattr(const char *path, struct stat *stbuf) {
     return 0;
 }
 
-// FUSE operation: access
+
 static int logging_access(const char *path, int mask) {
     int res;
     char fpath[PATH_MAX];
@@ -92,7 +91,6 @@ static int logging_access(const char *path, int mask) {
     return 0;
 }
 
-// FUSE operation: readlink
 static int logging_readlink(const char *path, char *buf, size_t size) {
     int res;
     char fpath[PATH_MAX];
@@ -110,7 +108,7 @@ static int logging_readlink(const char *path, char *buf, size_t size) {
     return 0;
 }
 
-// FUSE operation: readdir
+
 static int logging_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                           off_t offset, struct fuse_file_info *fi) {
     DIR *dp;
@@ -142,7 +140,7 @@ static int logging_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     return 0;
 }
 
-// FUSE operation: mkdir
+
 static int logging_mkdir(const char *path, mode_t mode) {
     int res;
     char fpath[PATH_MAX];
@@ -161,7 +159,7 @@ static int logging_mkdir(const char *path, mode_t mode) {
     return 0;
 }
 
-// FUSE operation: unlink
+
 static int logging_unlink(const char *path) {
     int res;
     char fpath[PATH_MAX];
@@ -178,7 +176,7 @@ static int logging_unlink(const char *path) {
     return 0;
 }
 
-// FUSE operation: rmdir
+
 static int logging_rmdir(const char *path) {
     int res;
     char fpath[PATH_MAX];
@@ -195,7 +193,6 @@ static int logging_rmdir(const char *path) {
     return 0;
 }
 
-// FUSE operation: rename
 static int logging_rename(const char *from, const char *to) {
     int res;
     char fpath_from[PATH_MAX];
@@ -216,7 +213,6 @@ static int logging_rename(const char *from, const char *to) {
     return 0;
 }
 
-// FUSE operation: chmod
 static int logging_chmod(const char *path, mode_t mode) {
     int res;
     char fpath[PATH_MAX];
@@ -235,7 +231,6 @@ static int logging_chmod(const char *path, mode_t mode) {
     return 0;
 }
 
-// FUSE operation: chown
 static int logging_chown(const char *path, uid_t uid, gid_t gid) {
     int res;
     char fpath[PATH_MAX];
@@ -254,7 +249,6 @@ static int logging_chown(const char *path, uid_t uid, gid_t gid) {
     return 0;
 }
 
-// FUSE operation: truncate
 static int logging_truncate(const char *path, off_t size) {
     int res;
     char fpath[PATH_MAX];
@@ -273,7 +267,6 @@ static int logging_truncate(const char *path, off_t size) {
     return 0;
 }
 
-// FUSE operation: utimens
 static int logging_utimens(const char *path, const struct timespec ts[2]) {
     int res;
     struct timeval tv[2];
@@ -297,7 +290,6 @@ static int logging_utimens(const char *path, const struct timespec ts[2]) {
     return 0;
 }
 
-// FUSE operation: open
 static int logging_open(const char *path, struct fuse_file_info *fi) {
     int res;
     char fpath[PATH_MAX];
@@ -318,7 +310,6 @@ static int logging_open(const char *path, struct fuse_file_info *fi) {
     return 0;
 }
 
-// FUSE operation: read
 static int logging_read(const char *path, char *buf, size_t size, off_t offset,
                        struct fuse_file_info *fi) {
     FILE *fp;
@@ -350,7 +341,6 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
     return res;
 }
 
-// FUSE operation: write
 static int logging_write(const char *path, const char *buf, size_t size,
                         off_t offset, struct fuse_file_info *fi) {
     FILE *fp;
@@ -382,7 +372,6 @@ static int logging_write(const char *path, const char *buf, size_t size,
     return res;
 }
 
-// FUSE operation: create
 static int logging_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
     int res;
     char fpath[PATH_MAX];
@@ -403,7 +392,7 @@ static int logging_create(const char *path, mode_t mode, struct fuse_file_info *
     return 0;
 }
 
-// FUSE operations structure
+
 static struct fuse_operations logging_oper = {
     .getattr    = logging_getattr,
     .access     = logging_access,
@@ -423,7 +412,6 @@ static struct fuse_operations logging_oper = {
     .create     = logging_create,
 };
 
-// Cleanup function
 static void cleanup() {
     if (log_fp) {
         log_operation("UNMOUNT", "/", "File system unmounted");
@@ -442,36 +430,34 @@ static void cleanup() {
     }
 }
 
-// Signal handler
 static void signal_handler(int sig) {
     printf("\nReceived signal %d, cleaning up...\n", sig);
     cleanup();
     exit(0);
 }
 
-// Main function
 int main(int argc, char *argv[]) {
     int ret;
     
-    // Check arguments
+    
     if (argc < 4) {
         fprintf(stderr, "Usage: %s <target_dir> <log_file> <mount_point> [fuse_options...]\n", argv[0]);
         fprintf(stderr, "Example: %s /home/user/data /tmp/fs.log /mnt/logging_fs -f\n", argv[0]);
         return 1;
     }
     
-    // Setup signal handlers
+    
     signal(SIGINT, signal_handler);
     signal(SIGTERM, signal_handler);
     
-    // Get target directory
+    
     target_dir = realpath(argv[1], NULL);
     if (!target_dir) {
         perror("realpath");
         return 1;
     }
     
-    // Check if target directory exists
+
     struct stat st;
     if (stat(target_dir, &st) != 0 || !S_ISDIR(st.st_mode)) {
         fprintf(stderr, "Error: Target directory '%s' tidak ada atau bukan direktori\n", target_dir);
@@ -479,7 +465,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
-    // Get log file path
+  
     log_file = strdup(argv[2]);
     if (!log_file) {
         perror("strdup");
@@ -487,7 +473,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
-    // Open log file
+  
     log_fp = fopen(log_file, "a");
     if (!log_fp) {
         perror("fopen log file");
@@ -501,23 +487,23 @@ int main(int argc, char *argv[]) {
     printf("Log file: %s\n", log_file);
     printf("Mount point: %s\n", argv[3]);
     
-    // Log initial mount
+
     log_operation("MOUNT", "/", target_dir);
     
-    // Prepare arguments for FUSE
+
     char **fuse_argv = malloc((argc - 1) * sizeof(char*));
     fuse_argv[0] = argv[0];  // program name
     fuse_argv[1] = argv[3];  // mount point
     
-    // Copy remaining FUSE options
+
     for (int i = 4; i < argc; i++) {
         fuse_argv[i - 2] = argv[i];
     }
     
-    // Run FUSE
+
     ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);
     
-    // Cleanup
+
     free(fuse_argv);
     cleanup();
     

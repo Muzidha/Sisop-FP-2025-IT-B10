@@ -1,25 +1,21 @@
 #!/bin/bash
 
-# Script untuk testing Logging FUSE File System
-# Author: Assistant
-# Description: Script ini akan menguji berbagai operasi file system dan menampilkan log
 
-set -e  # Exit on error
 
-# Colors for output
+set -e  
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Configuration
 TARGET_DIR="./test_target"
 MOUNT_DIR="./test_mount"
 LOG_FILE="./logs/filesystem.log"
 PROGRAM="./logging_fs"
 
-# Function to print colored output
+
 print_status() {
     echo -e "${GREEN}[INFO]${NC} $1"
 }
@@ -36,7 +32,7 @@ print_step() {
     echo -e "${BLUE}[STEP]${NC} $1"
 }
 
-# Function to check if program exists
+
 check_program() {
     if [ ! -f "$PROGRAM" ]; then
         print_error "Program $PROGRAM tidak ditemukan. Compile terlebih dahulu dengan 'make all'"
@@ -44,19 +40,18 @@ check_program() {
     fi
 }
 
-# Function to setup test environment
+
 setup_test_env() {
     print_step "Setting up test environment..."
     
-    # Create directories
     mkdir -p "$TARGET_DIR" "$MOUNT_DIR" "$(dirname "$LOG_FILE")"
     
-    # Create test files in target directory
+    
     echo "This is test file 1" > "$TARGET_DIR/file1.txt"
     echo "This is test file 2" > "$TARGET_DIR/file2.txt"
     echo "This is a large test file with more content for testing read operations" > "$TARGET_DIR/large_file.txt"
     
-    # Create subdirectory with files
+    
     mkdir -p "$TARGET_DIR/subdir1"
     echo "File in subdirectory 1" > "$TARGET_DIR/subdir1/sub_file1.txt"
     
@@ -66,25 +61,25 @@ setup_test_env() {
     print_status "Test environment created successfully"
 }
 
-# Function to start the filesystem
+
 start_filesystem() {
     print_step "Starting logging filesystem..."
     
-    # Check if already mounted
+    
     if mountpoint -q "$MOUNT_DIR" 2>/dev/null; then
         print_warning "Filesystem already mounted. Unmounting first..."
         fusermount -u "$MOUNT_DIR" 2>/dev/null || true
         sleep 1
     fi
     
-    # Start the filesystem in background
+    
     "$PROGRAM" "$TARGET_DIR" "$LOG_FILE" "$MOUNT_DIR" &
     FUSE_PID=$!
     
-    # Wait a moment for filesystem to start
+    
     sleep 2
     
-    # Check if mounted successfully
+    
     if ! mountpoint -q "$MOUNT_DIR" 2>/dev/null; then
         print_error "Failed to mount filesystem"
         kill $FUSE_PID 2>/dev/null || true
@@ -94,7 +89,7 @@ start_filesystem() {
     print_status "Filesystem mounted successfully (PID: $FUSE_PID)"
 }
 
-# Function to test file operations
+
 test_operations() {
     print_step "Testing file system operations..."
     
@@ -193,9 +188,7 @@ cleanup() {
         print_status "FUSE process terminated"
     fi
     
-    # Optionally remove test directories (uncomment if desired)
-    # rm -rf "$TARGET_DIR" "$MOUNT_DIR" "$(dirname "$LOG_FILE")"
-    # print_status "Test directories removed"
+    
 }
 
 # Function to show usage

@@ -1,4 +1,3 @@
-# Makefile untuk Logging FUSE File System
 
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -D_FILE_OFFSET_BITS=64
@@ -6,25 +5,22 @@ LIBS = -lfuse -lpthread
 TARGET = logging_fs
 SOURCE = logging_fs.c
 
-# Default target
 all: $(TARGET)
 
-# Compile the main program
 $(TARGET): $(SOURCE)
 	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCE) $(LIBS)
 
-# Install dependencies (Ubuntu/Debian)
+
 install-deps:
 	sudo apt-get update
 	sudo apt-get install -y libfuse-dev fuse
 
-# Install dependencies (CentOS/RHEL/Fedora)
+
 install-deps-fedora:
 	sudo yum install -y fuse-devel fuse
 	# atau untuk sistem yang lebih baru:
 	# sudo dnf install -y fuse-devel fuse
 
-# Create test environment
 test-setup:
 	mkdir -p test_target test_mount logs
 	echo "Test file 1" > test_target/file1.txt
@@ -32,24 +28,19 @@ test-setup:
 	mkdir -p test_target/subdir
 	echo "Subdirectory file" > test_target/subdir/subfile.txt
 
-# Run the filesystem (foreground mode for testing)
 run-test: $(TARGET) test-setup
 	./$(TARGET) test_target logs/filesystem.log test_mount -f
 
-# Run the filesystem (background mode)
 run-daemon: $(TARGET)
 	./$(TARGET) test_target logs/filesystem.log test_mount -o allow_other
 
-# Unmount the filesystem
 unmount:
 	fusermount -u test_mount
 
-# Clean up
 clean:
 	rm -f $(TARGET)
 	rm -rf test_target test_mount logs
 
-# Test the filesystem operations
 test-operations: test-setup
 	@echo "Testing filesystem operations..."
 	@echo "1. Listing files:"
@@ -65,7 +56,6 @@ test-operations: test-setup
 	@echo "6. Checking log file:"
 	tail -20 logs/filesystem.log
 
-# Show help
 help:
 	@echo "Available targets:"
 	@echo "  all             - Compile the program"
