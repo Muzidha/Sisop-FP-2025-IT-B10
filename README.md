@@ -131,8 +131,10 @@ logging-fuse/
 Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupakan suatu modul yang memuat untuk sistem UNIX dan menyediakan API (Antarmuka Pemrograman Aplikasi) kepada pogram tanpa mengubah kode kernel sama sekali. Design and Development of A User Based Secure File System for Linux Using FUSE. 10(1),9. Disisi lain Kanaujia et al (2012) menyatakan bahwasannya FUSE merupakan modul yang sifatnya terbuka. Pada modul ini FUSE menfasilitasi di ruang pengguna dan eksplore seperangkat API untuk kembangkan ruang pengguna yang dapat di mount dan berfungsi dengan penuh tanpa memperlukan hak istimewa. FUSEing Python for Development of Storage Efficient Filesystem 7(4), 4.
 
 2. .....
-3. .....
-4. Virtual File System
+3. Thread Safety & Logging
+   Dikutip pada jurnal Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications. Sebagian besar bahasa yang digunakan terdapat kontrol langsung dengan perangkat keras demi mendapatkan hasil yang maksimal. Salah satunya yang dapat kita rasakan yaitu penggunakan pointer. Namun penggunaan ini apabila tidak benar dapat menyebabkan kerentanan keamanan yang mengakibatkan kerusakan fragmen memori, Nigade Vijay (2019).
+   
+5. Virtual File System
    
    dalam buku "UnderStanding The Linux Kernel 3rd Edition" yang ditulis oleh Daniel P. Bovet dan Marco Cesati menyebutkan "The Virtual Filesystem (also known as Virtual Filesystem Switch or VFS) is a kernel software layer that handles all system calls related to a standard Unix filesystem. Its main strength is providing a common interface to several kinds of filesystems."(456) artinya Sistem File Virtual (juga dikenal sebagai Virtual Filesystem Switch atau VFS) adalah sebuah kernel
 lapisan perangkat lunak yang menangani semua panggilan sistem yang terkait dengan sistem file Unix standar. Dia
@@ -141,10 +143,10 @@ kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem 
 **Solusi**
 1. Filesystem in Userspace
 
-didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`. Program mengimplementasikan berbagai fungsi callback FUSE seperti `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll. Kemudian struktur operasi FUSE dideklarasikan di `static struct fuse_operations logging_oper = { ... };` Program dimulai dengan `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
+    didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`. Program mengimplementasikan berbagai fungsi callback FUSE seperti `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll. Kemudian struktur operasi FUSE dideklarasikan di `static struct fuse_operations logging_oper = { ... };` Program dimulai dengan `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 
 2. .....
-3. .....
+3. 
 4. Virtual File System
 
    - Fungsi `get_full_path()` menyusun path absolut:
