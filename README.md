@@ -147,7 +147,41 @@ kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem 
     didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`. Program mengimplementasikan berbagai fungsi callback FUSE seperti `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll. Kemudian struktur operasi FUSE dideklarasikan di `static struct fuse_operations logging_oper = { ... };` Program dimulai dengan `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 
 2. .....
-3. 
+3. Thread Safety & Logging
+
+  - fungsi `log_operation()`:
+    ```c
+    static void log_operation(const char *operation, const char *path, const char *details) {
+    pthread_mutex_lock(&log_mutex);
+    
+    if (log_fp) {
+        time_t now;
+        struct tm *timeinfo;
+        char timestamp[80];
+        
+        time(&now);
+        timeinfo = localtime(&now);
+        strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", timeinfo);
+        
+        fprintf(log_fp, "[%s] %s: %s", timestamp, operation, path);
+        if (details) {
+            fprintf(log_fp, " - %s", details);
+        }
+        fprintf(log_fp, "\n");
+        fflush(log_fp);
+    }
+    
+    pthread_mutex_unlock(&log_mutex);
+    }
+    ```
+
+    - Contoh penggunaan operasinya:
+    ```c
+    log_operation("RMDIR", path, "OK");
+    return 0;
+    ```
+
+    
 4. Virtual File System
 
    - Fungsi `get_full_path()` menyusun path absolut:
