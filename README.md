@@ -35,7 +35,98 @@ Memahami konsep file system virtual dan monitoring I/O menggunakan FUSE. Program
 
 ### Catatan
 
-> Insert catatan dari pengerjaan kalian... (contoh dibawah) // hapus line ini
+---
+
+##**Deskripsi Umum**
+
+Kode ini merupakan implementasi file system virtual menggunakan **FUSE (Filesystem in Userspace)** yang berfungsi **mencatat semua operasi file** ke dalam sebuah log file. Tujuan utamanya adalah **monitoring dan audit trail** terhadap operasi seperti `read`, `write`, `open`, `mkdir`, `unlink`, dan sebagainya yang dilakukan di dalam direktori yang di-*mount*.
+
+---
+
+## **Struktur Komponen**
+
+1. **`logging_fs.c`**: Implementasi utama sistem file berbasis FUSE dan pencatatan log.
+2. **`tes_logging_fs.sh`**: Script bash untuk menguji fungsionalitas filesystem secara otomatis.
+3. **`README.md`**: Template dokumentasi, berisi informasi umum tim dan struktur repo.
+4. **`makefile`**: Tidak dianalisis karena tidak terbaca langsung, namun diasumsikan digunakan untuk kompilasi `logging_fs`.
+
+---
+
+## **Fungsi Utama yang Diimplementasikan**
+
+Semua fungsi FUSE yang di-*override* digunakan untuk mencatat log setiap kali ada aktivitas filesystem:
+
+* `getattr`, `access`, `readlink`, `readdir`, `mkdir`, `unlink`, `rmdir`, `rename`, `chmod`, `chown`, `truncate`, `utimens`, `open`, `read`, `write`, `create`
+
+Setiap operasi:
+
+* Menggunakan `get_full_path()` untuk menggabungkan `target_dir` + `path`.
+* Dilaporkan ke log melalui `log_operation()`, termasuk error bila terjadi.
+* Thread-safe menggunakan mutex `log_mutex`.
+
+Contoh isi log:
+
+```
+[2025-06-25 14:05:22] READ: /file1.txt - bytes=23 offset=0
+```
+
+---
+
+##  **Testing (`tes_logging_fs.sh`)**
+
+Script `tes_logging_fs.sh`:
+
+* Membangun struktur direktori untuk pengujian (`./test_target`)
+* Mem-*mount* filesystem ke direktori `./test_mount`
+* Menjalankan serangkaian operasi (`ls`, `cat`, `echo`, `mv`, `chmod`, `rm`, dll.)
+* Menampilkan isi log dan rekap jumlah masing-masing operasi
+
+Mode eksekusi:
+
+* `setup`: siapkan environment saja
+* `start`: mount filesystem saja
+* `test`: jalankan tes (filesystem harus aktif)
+* `logs`: tampilkan log
+* `full` *(default)*: semua langkah dari awal sampai akhir
+* `cleanup`: unmount dan hapus proses terkait
+
+---
+
+##  **Keamanan dan Sinkronisasi**
+
+* Menggunakan `pthread_mutex` untuk **menghindari race condition** dalam penulisan log.
+* Ada penanganan sinyal `SIGINT` dan `SIGTERM` untuk memastikan file log ditutup dengan benar saat unmount atau terminate.
+
+---
+
+##  **Catatan Tambahan**
+
+* Program memerlukan minimal **3 argumen saat dijalankan**:
+
+  ```
+  ./logging_fs <target_dir> <log_file> <mount_point> [fuse_options...]
+  ```
+* Fungsi `cleanup()` akan membebaskan memori heap dan menutup file log.
+* Penggunaan `realpath()` dan `strdup()` meningkatkan keandalan validasi direktori/log.
+
+---
+
+## **Kelebihan**
+
+* Logging sangat detail (waktu, jenis operasi, hasil/success/error).
+* Mendukung hampir seluruh fungsi dasar filesystem.
+* Otomatisasi pengujian lengkap, bisa digunakan untuk demonstrasi atau debugging.
+
+---
+
+##  **Saran Perbaikan**
+
+1. **Error Handling** lebih lengkap (contohnya pada `malloc` atau `fuse_main`).
+2. Bisa menambahkan log rotasi (misalnya membatasi ukuran log).
+3. Mendukung log dalam format JSON atau CSV untuk integrasi ke tools monitoring eksternal.
+4. `Makefile` bisa didokumentasikan untuk memastikan proses build jelas.
+
+---
 
 Struktur repository:
 ```
