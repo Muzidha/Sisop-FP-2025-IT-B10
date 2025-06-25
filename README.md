@@ -145,7 +145,11 @@ Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupak
 
 **Video Menjalankan Program**
 
-https://drive.google.com/file/d/1eGt3oidJKiLOzVP7xMEuIlgdPDHGLYK7/view?usp=sharing
+
+https://github.com/user-attachments/assets/66d39df2-ee7d-443d-b8a7-54cb1dcfdfb2
+
+
+
 
 ## Daftar Pustaka
 
