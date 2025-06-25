@@ -128,7 +128,7 @@ logging-fuse/
 **Teori**
 1. Filesystem in Userspace
 
-Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupakan suatu modul yang memuat untuk sistem UNIX dan menyediakan API (Antarmuka Pemrograman Aplikasi) kepada pogram tanpa mengubah kode kernel sama sekali. Design and Development of A User Based Secure File System for Linux Using FUSE. 10(1),9. Disisi lain Kanaujia et al (2012) menyatakan bahwasannya FUSE merupakan modul yang sifatnya terbuka. Pada modul ini FUSE menfasilitasi di ruang pengguna dan eksplore seperangkat API untuk kembangkan ruang pengguna yang dapat di mount dan berfungsi dengan penuh tanpa memperlukan hak istimewa. FUSEing Python for Development of Storage Efficient Filesystem 7(4), 4.
+   Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupakan suatu modul yang memuat untuk sistem UNIX dan menyediakan API (Antarmuka Pemrograman Aplikasi) kepada pogram tanpa mengubah kode kernel sama sekali. Design and Development of A User Based Secure File System for Linux Using FUSE. 10(1),9. Disisi lain Kanaujia et al (2012) menyatakan bahwasannya FUSE merupakan modul yang sifatnya terbuka. Pada modul ini FUSE menfasilitasi di ruang pengguna dan eksplore seperangkat API untuk kembangkan ruang pengguna yang dapat di mount dan berfungsi dengan penuh tanpa memperlukan hak istimewa. FUSEing Python for Development of Storage Efficient Filesystem 7(4), 4.
 
 2. .....
 3. Thread Safety & Logging
