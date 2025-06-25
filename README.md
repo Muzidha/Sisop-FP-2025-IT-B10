@@ -144,6 +144,8 @@ Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupak
   
   `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 
+2. 
+
 
 
 > Insert poin soal...
