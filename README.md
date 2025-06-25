@@ -126,10 +126,23 @@ logging-fuse/
 > Insert poin soal...
 
 **Teori**
-
+1. Filesystem in Userspace
 Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupakan suatu modul yang memuat untuk sistem UNIX dan menyediakan API (Antarmuka Pemrograman Aplikasi) kepada pogram tanpa mengubah kode kernel sama sekali. Design and Development of A User Based Secure File System for Linux Using FUSE. 10(1),9. Disisi lain Kanaujia et al (2012) menyatakan bahwasannya FUSE merupakan modul yang sifatnya terbuka. Pada modul ini FUSE menfasilitasi di ruang pengguna dan eksplore seperangkat API untuk kembangkan ruang pengguna yang dapat di mount dan berfungsi dengan penuh tanpa memperlukan hak istimewa. FUSEing Python for Development of Storage Efficient Filesystem 7(4), 4.
 
 **Solusi**
+1. Filesystem in Userspace
+  didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`.
+  Program mengimplementasikan berbagai fungsi callback FUSE seperti:
+
+  `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll.
+  
+  Struktur operasi FUSE dideklarasikan di:
+  
+  `static struct fuse_operations logging_oper = { ... };`
+  
+  Program dimulai dengan:
+  
+  `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 
 
 
