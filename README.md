@@ -37,13 +37,13 @@ Memahami konsep file system virtual dan monitoring I/O menggunakan FUSE. Program
 
 ---
 
-##**Deskripsi Umum**
+#### **Deskripsi Umum**
 
 Kode ini merupakan implementasi file system virtual menggunakan **FUSE (Filesystem in Userspace)** yang berfungsi **mencatat semua operasi file** ke dalam sebuah log file. Tujuan utamanya adalah **monitoring dan audit trail** terhadap operasi seperti `read`, `write`, `open`, `mkdir`, `unlink`, dan sebagainya yang dilakukan di dalam direktori yang di-*mount*.
 
 ---
 
-## **Struktur Komponen**
+#### **Struktur Komponen**
 
 1. **`logging_fs.c`**: Implementasi utama sistem file berbasis FUSE dan pencatatan log.
 2. **`tes_logging_fs.sh`**: Script bash untuk menguji fungsionalitas filesystem secara otomatis.
@@ -52,7 +52,7 @@ Kode ini merupakan implementasi file system virtual menggunakan **FUSE (Filesyst
 
 ---
 
-## **Fungsi Utama yang Diimplementasikan**
+#### **Fungsi Utama yang Diimplementasikan**
 
 Semua fungsi FUSE yang di-*override* digunakan untuk mencatat log setiap kali ada aktivitas filesystem:
 
@@ -72,7 +72,7 @@ Contoh isi log:
 
 ---
 
-##  **Testing (`tes_logging_fs.sh`)**
+####  **Testing (`tes_logging_fs.sh`)**
 
 Script `tes_logging_fs.sh`:
 
@@ -92,14 +92,14 @@ Mode eksekusi:
 
 ---
 
-##  **Keamanan dan Sinkronisasi**
+####  **Keamanan dan Sinkronisasi**
 
 * Menggunakan `pthread_mutex` untuk **menghindari race condition** dalam penulisan log.
 * Ada penanganan sinyal `SIGINT` dan `SIGTERM` untuk memastikan file log ditutup dengan benar saat unmount atau terminate.
 
 ---
 
-##  **Catatan Tambahan**
+####  **Catatan Tambahan**
 
 * Program memerlukan minimal **3 argumen saat dijalankan**:
 
@@ -111,22 +111,6 @@ Mode eksekusi:
 
 ---
 
-## **Kelebihan**
-
-* Logging sangat detail (waktu, jenis operasi, hasil/success/error).
-* Mendukung hampir seluruh fungsi dasar filesystem.
-* Otomatisasi pengujian lengkap, bisa digunakan untuk demonstrasi atau debugging.
-
----
-
-##  **Saran Perbaikan**
-
-1. **Error Handling** lebih lengkap (contohnya pada `malloc` atau `fuse_main`).
-2. Bisa menambahkan log rotasi (misalnya membatasi ukuran log).
-3. Mendukung log dalam format JSON atau CSV untuk integrasi ke tools monitoring eksternal.
-4. `Makefile` bisa didokumentasikan untuk memastikan proses build jelas.
-
----
 
 Struktur repository:
 ```
