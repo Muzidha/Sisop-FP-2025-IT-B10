@@ -132,9 +132,10 @@ Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupak
 
 2. .....
 3. Thread Safety & Logging
+   
    Dikutip pada jurnal Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications. Sebagian besar bahasa yang digunakan terdapat kontrol langsung dengan perangkat keras demi mendapatkan hasil yang maksimal. Salah satunya yang dapat kita rasakan yaitu penggunakan pointer. Namun penggunaan ini apabila tidak benar dapat menyebabkan kerentanan keamanan yang mengakibatkan kerusakan fragmen memori, Nigade Vijay (2019).
    
-5. Virtual File System
+4. Virtual File System
    
    dalam buku "UnderStanding The Linux Kernel 3rd Edition" yang ditulis oleh Daniel P. Bovet dan Marco Cesati menyebutkan "The Virtual Filesystem (also known as Virtual Filesystem Switch or VFS) is a kernel software layer that handles all system calls related to a standard Unix filesystem. Its main strength is providing a common interface to several kinds of filesystems."(456) artinya Sistem File Virtual (juga dikenal sebagai Virtual Filesystem Switch atau VFS) adalah sebuah kernel
 lapisan perangkat lunak yang menangani semua panggilan sistem yang terkait dengan sistem file Unix standar. Dia
