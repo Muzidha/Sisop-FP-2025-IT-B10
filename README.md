@@ -131,19 +131,7 @@ Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupak
 
 **Solusi**
 1. Filesystem in Userspace
-  didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`.
-  Program mengimplementasikan berbagai fungsi callback FUSE seperti:
-
-  `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll.
-  
-  Struktur operasi FUSE dideklarasikan di:
-  
-  `static struct fuse_operations logging_oper = { ... };`
-  
-  Program dimulai dengan:
-  
-  `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
-
+didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`. Program mengimplementasikan berbagai fungsi callback FUSE seperti `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll. Kemudian struktur operasi FUSE dideklarasikan di `static struct fuse_operations logging_oper = { ... };` Program dimulai dengan `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 2. 
 
 
