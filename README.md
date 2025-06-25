@@ -130,12 +130,37 @@ logging-fuse/
 
 Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupakan suatu modul yang memuat untuk sistem UNIX dan menyediakan API (Antarmuka Pemrograman Aplikasi) kepada pogram tanpa mengubah kode kernel sama sekali. Design and Development of A User Based Secure File System for Linux Using FUSE. 10(1),9. Disisi lain Kanaujia et al (2012) menyatakan bahwasannya FUSE merupakan modul yang sifatnya terbuka. Pada modul ini FUSE menfasilitasi di ruang pengguna dan eksplore seperangkat API untuk kembangkan ruang pengguna yang dapat di mount dan berfungsi dengan penuh tanpa memperlukan hak istimewa. FUSEing Python for Development of Storage Efficient Filesystem 7(4), 4.
 
+2. .....
+3. .....
+4. Virtual File System
+   
+   dalam buku "UnderStanding The Linux Kernel 3rd Edition" yang ditulis oleh Daniel P. Bovet dan Marco Cesati menyebutkan "The Virtual Filesystem (also known as Virtual Filesystem Switch or VFS) is a kernel software layer that handles all system calls related to a standard Unix filesystem. Its main strength is providing a common interface to several kinds of filesystems."(456) artinya Sistem File Virtual (juga dikenal sebagai Virtual Filesystem Switch atau VFS) adalah sebuah kernel
+lapisan perangkat lunak yang menangani semua panggilan sistem yang terkait dengan sistem file Unix standar. Dia
+kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem file. Dalam pengimplementasian yang dibuat Karena sistem ini tidak langsung beroperasi pada path absolut di sistem, path relatif dari FUSE perlu diterjemahkan ke path absolut (`real path`) di `target_dir`.
+
 **Solusi**
 1. Filesystem in Userspace
 
 didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`. Program mengimplementasikan berbagai fungsi callback FUSE seperti `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll. Kemudian struktur operasi FUSE dideklarasikan di `static struct fuse_operations logging_oper = { ... };` Program dimulai dengan `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 
-2. 
+2. .....
+3. .....
+4. Virtual File System
+
+   - Fungsi `get_full_path()` menyusun path absolut:
+     ```c
+     static void get_full_path(char fpath[PATH_MAX], const char *path) {
+     strcpy(fpath, target_dir);
+     strncat(fpath, path, PATH_MAX - strlen(target_dir));
+     }
+     ```
+   - Semua operasi file menggunakan path fpath hasil terjemahan, misal:
+     ```c
+     get_full_path(fpath, path);
+     res = open(fpath, fi->flags);
+     ```
+
+   
 
 
 
