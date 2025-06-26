@@ -117,7 +117,11 @@ logging-fuse/
 
    Menurut Yerragudi et al (2011) Filesystem in USErspace atau dikenal FUSE merupakan suatu modul yang memuat untuk sistem UNIX dan menyediakan API (Antarmuka Pemrograman Aplikasi) kepada pogram tanpa mengubah kode kernel sama sekali. Design and Development of A User Based Secure File System for Linux Using FUSE. 10(1),9. Disisi lain Kanaujia et al (2012) menyatakan bahwasannya FUSE merupakan modul yang sifatnya terbuka. Pada modul ini FUSE menfasilitasi di ruang pengguna dan eksplore seperangkat API untuk kembangkan ruang pengguna yang dapat di mount dan berfungsi dengan penuh tanpa memperlukan hak istimewa. FUSEing Python for Development of Storage Efficient Filesystem 7(4), 4.
 
-2. .....
+2. System Call Wrapping
+
+    Menurut Silberschatz, Galvin, dan Gagne dalam buku Operating System Concepts (9th Edition), system call wrapping adalah teknik membungkus (wrap) pemanggilan system call dengan fungsi tambahan untuk tujuan tertentu seperti logging, debugging, atau modifikasi perilaku. system call wrapping memungkinkan developer untuk menambahkan perilaku baru di sekitar pemanggilan system call, seperti mencatat setiap kali open() atau read() dipanggil, tanpa mengubah kode asli system call itu sendiri.
+
+   
 3. Thread Safety & Logging
    
    Dikutip pada jurnal Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications. Sebagian besar bahasa yang digunakan terdapat kontrol langsung dengan perangkat keras demi mendapatkan hasil yang maksimal. Salah satunya yang dapat kita rasakan yaitu penggunakan pointer. Namun penggunaan ini apabila tidak benar dapat menyebabkan kerentanan keamanan yang mengakibatkan kerusakan fragmen memori, Nigade Vijay (2019).
@@ -133,7 +137,9 @@ kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem 
 
     didalam kode yang dibuat pengimplementasian FUSE sendiri dengan mengimplementasikan callback dalam `struct fuse_operations`. Program mengimplementasikan berbagai fungsi callback FUSE seperti `.getattr`, `.access`, `.read`, `.write`, `.mkdir`, `.unlink`, dll. Kemudian struktur operasi FUSE dideklarasikan di `static struct fuse_operations logging_oper = { ... };` Program dimulai dengan `ret = fuse_main(argc - 2, fuse_argv, &logging_oper, NULL);`
 
-2. .....
+2. System Call Wrapping
+
+   
 3. Thread Safety & Logging
     - fungsi `log_operation()`:
       ```c
