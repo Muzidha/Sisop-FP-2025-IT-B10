@@ -110,7 +110,6 @@ logging-fuse/
 
 ## Pengerjaan
 
-> Insert poin soal...
 
 **Teori**
 1. Filesystem in Userspace
@@ -296,15 +295,6 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
 
 
 
-> Insert poin soal...
-
-**Teori**
-
-...
-
-**Solusi**
-
-...
 
 **Video Menjalankan Program**
 
