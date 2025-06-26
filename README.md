@@ -223,3 +223,6 @@ https://github.com/user-attachments/assets/66d39df2-ee7d-443d-b8a7-54cb1dcfdfb2
 Sitasi 1
 Sitasi 2
 Sitasi 3
+
+sitasi 4
+Bovet, D. P., dan Cesati, M. 2006. Understanding the Linux Kernel. 3rd ed. Sebastopol: O’Reilly Media.
