@@ -147,15 +147,15 @@ static int logging_open(const char *path, struct fuse_file_info *fi) {
     char flags_str[64];
     
     get_full_path(fpath, path);
-    res = open(fpath, fi->flags);  // <-- system call asli dibungkus
+    res = open(fpath, fi->flags);  
     
     if (res == -1) {
-        log_operation("OPEN_ERROR", path, strerror(errno));  // tambahan logging
+        log_operation("OPEN_ERROR", path, strerror(errno)); 
         return -errno;
     }
     
     sprintf(flags_str, "flags=%d fd=%d", fi->flags, res);
-    log_operation("OPEN", path, flags_str);  // logging keberhasilan
+    log_operation("OPEN", path, flags_str);  
     
     close(res);
     return 0;
@@ -173,7 +173,7 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
     char read_info[64];
 
     get_full_path(fpath, path);
-    fp = fopen(fpath, "r");  // <-- system call dibungkus
+    fp = fopen(fpath, "r");  
     
     if (fp == NULL) {
         log_operation("READ_ERROR", path, strerror(errno));
@@ -181,21 +181,20 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
     }
 
     fseek(fp, offset, SEEK_SET);
-    res = fread(buf, 1, size, fp);  // <-- dibungkus juga
+    res = fread(buf, 1, size, fp);  
     ...
 }
 
 ```
 - Wrapping system call `mkdir()`
-  ```bash
-
+```bash
   static int logging_mkdir(const char *path, mode_t mode) {
     int res;
     char fpath[PATH_MAX];
     char mode_str[32];
     
     get_full_path(fpath, path);
-    res = mkdir(fpath, mode);  // <-- system call dibungkus
+    res = mkdir(fpath, mode);  
     
     if (res == -1) {
         log_operation("MKDIR_ERROR", path, strerror(errno));
@@ -204,7 +203,43 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
     
     sprintf(mode_str, "mode=%o", mode);
     log_operation("MKDIR", path, mode_str);
-    return 0;} ```
+    return 0;}
+```
+- Wrapping system call `write()`
+```bash
+  static int logging_write(const char *path, const char *buf, size_t size,
+                         off_t offset, struct fuse_file_info *fi) {
+    FILE *fp;
+    int res;
+    char fpath[PATH_MAX];
+    char write_info[64];
+    
+    (void) fi;
+    get_full_path(fpath, path);  
+
+    fp = fopen(fpath, "r+");    
+    
+    if (fp == NULL) {
+        log_operation("WRITE_ERROR", path, strerror(errno));  
+        return -errno;
+    }
+    
+    fseek(fp, offset, SEEK_SET); 
+    res = fwrite(buf, 1, size, fp);  
+    
+    if (res == -1) {
+        res = -errno;
+        log_operation("WRITE_ERROR", path, strerror(errno));  
+    } else {
+        sprintf(write_info, "bytes=%d offset=%ld", res, offset);
+        log_operation("WRITE", path, write_info);  
+    }
+    
+    fclose(fp);
+    return res;
+}
+
+```
   
 
 
