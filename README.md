@@ -208,8 +208,16 @@ https://github.com/user-attachments/assets/66d39df2-ee7d-443d-b8a7-54cb1dcfdfb2
 ## Daftar Pustaka
 
 Sitasi 1
+
+Yerragudi, V. S., N. D. Gangadhar, dan Dipayan M. Design and Development of A User Based Secure File System for Linux Using FUSE
+Kanaujia, V., dan Chetan G. FUSE’ing Python for Development of Storage Efficient Filesystem 
+
 Sitasi 2
+
+
 Sitasi 3
+
+Nigade, V. V. Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications
 
 sitasi 4
 
