@@ -187,8 +187,9 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
 
 ```
 - Wrapping system call `mkdir()`
-  ```
-  bash static int logging_mkdir(const char *path, mode_t mode) {
+  ```bash
+
+  static int logging_mkdir(const char *path, mode_t mode) {
     int res;
     char fpath[PATH_MAX];
     char mode_str[32];
@@ -203,9 +204,9 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
     
     sprintf(mode_str, "mode=%o", mode);
     log_operation("MKDIR", path, mode_str);
-    return 0;
-}
-```
+    return 0;} ```
+  
+
 
    
 3. Thread Safety & Logging
