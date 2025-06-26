@@ -318,19 +318,19 @@ https://github.com/user-attachments/assets/66d39df2-ee7d-443d-b8a7-54cb1dcfdfb2
 
 Sitasi 1
 
-Yerragudi, V. S., N. D. Gangadhar, dan Dipayan M. Design and Development of A User Based Secure File System for Linux Using FUSE
+- Yerragudi, V. S., N. D. Gangadhar, dan Dipayan M. Design and Development of A User Based Secure File System for Linux Using FUSE
 
-Kanaujia, V., dan Chetan G. FUSE’ing Python for Development of Storage Efficient Filesystem 
+- Kanaujia, V., dan Chetan G. FUSE’ing Python for Development of Storage Efficient Filesystem 
 
 Sitasi 2
 
-Silberschatz, A., Galvin, P. B., & Gagne, G. (2013). Operating System Concepts (9th ed.)
+- Silberschatz, A., Galvin, P. B., & Gagne, G. (2013). Operating System Concepts (9th ed.)
 
 
 Sitasi 3
 
-Nigade, V. V. Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications
+- Nigade, V. V. Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications
 
 sitasi 4
 
-Bovet, D. P., dan Cesati, M. 2006. Understanding the Linux Kernel. 3rd ed. Sebastopol: O’Reilly Media.
+- Bovet, D. P., dan Cesati, M. 2006. Understanding the Linux Kernel. 3rd ed. Sebastopol: O’Reilly Media.
