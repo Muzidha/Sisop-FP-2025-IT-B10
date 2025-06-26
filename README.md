@@ -119,8 +119,7 @@ logging-fuse/
 
 2. System Call Wrapping
 
-    Menurut Silberschatz, Galvin, dan Gagne dalam buku Operating System Concepts (9th Edition), system call wrapping adalah teknik membungkus (wrap) pemanggilan system call dengan fungsi tambahan untuk tujuan tertentu seperti logging, debugging, atau modifikasi perilaku. system call wrapping memungkinkan developer untuk menambahkan perilaku baru di sekitar pemanggilan system call, seperti mencatat setiap kali open() atau read() dipanggil, tanpa mengubah kode asli system call itu sendiri.
-
+    Menurut Silberschatz, Galvin, dan Gagne dalam buku Operating System Concepts (9th Edition), system call wrapping adalah teknik membungkus pemanggilan system call dengan fungsi tambahan untuk tujuan seperti logging, debugging, modifikasi perilaku, keamanan, atau manipulasi data. Teknik ini memungkinkan developer menambahkan perilaku baru di sekitar pemanggilan system call, misalnya mencatat setiap kali fungsi seperti open() atau read() dipanggil, tanpa mengubah kode asli dari system call itu sendiri.
    
 3. Thread Safety & Logging
    
