@@ -324,6 +324,8 @@ Kanaujia, V., dan Chetan G. FUSE’ing Python for Development of Storage Efficie
 
 Sitasi 2
 
+Silberschatz, A., Galvin, P. B., & Gagne, G. (2013). Operating System Concepts (9th ed.)
+
 
 Sitasi 3
 
