@@ -139,7 +139,7 @@ kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem 
 
 2. System Call Wrapping
 
-***Wrapping system call `open()`***
+- Wrapping system call `open()`
 ```bash
 static int logging_open(const char *path, struct fuse_file_info *fi) {
     int res;
@@ -163,7 +163,7 @@ static int logging_open(const char *path, struct fuse_file_info *fi) {
 
 ```
 
-***Wrapping system call `read()`***
+- Wrapping system call `read()`
 ```bash
 static int logging_read(const char *path, char *buf, size_t size, off_t offset,
                         struct fuse_file_info *fi) {
