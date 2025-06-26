@@ -186,6 +186,26 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
 }
 
 ```
+- Wrapping system call `mkdir()`
+  ```
+  bash static int logging_mkdir(const char *path, mode_t mode) {
+    int res;
+    char fpath[PATH_MAX];
+    char mode_str[32];
+    
+    get_full_path(fpath, path);
+    res = mkdir(fpath, mode);  // <-- system call dibungkus
+    
+    if (res == -1) {
+        log_operation("MKDIR_ERROR", path, strerror(errno));
+        return -errno;
+    }
+    
+    sprintf(mode_str, "mode=%o", mode);
+    log_operation("MKDIR", path, mode_str);
+    return 0;
+}
+```
 
    
 3. Thread Safety & Logging
