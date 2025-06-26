@@ -163,7 +163,7 @@ static int logging_open(const char *path, struct fuse_file_info *fi) {
 
 ```
 
-***WWrapping system call `read()`***
+***Wrapping system call `read()`***
 ```bash
 static int logging_read(const char *path, char *buf, size_t size, off_t offset,
                         struct fuse_file_info *fi) {
