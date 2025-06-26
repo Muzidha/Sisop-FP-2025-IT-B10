@@ -139,6 +139,30 @@ kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem 
 
 2. System Call Wrapping
 
+***Wrapping system call `open()`***
+```bash
+static int logging_open(const char *path, struct fuse_file_info *fi) {
+    int res;
+    char fpath[PATH_MAX];
+    char flags_str[64];
+    
+    get_full_path(fpath, path);
+    res = open(fpath, fi->flags);  // <-- system call asli dibungkus
+    
+    if (res == -1) {
+        log_operation("OPEN_ERROR", path, strerror(errno));  // tambahan logging
+        return -errno;
+    }
+    
+    sprintf(flags_str, "flags=%d fd=%d", fi->flags, res);
+    log_operation("OPEN", path, flags_str);  // logging keberhasilan
+    
+    close(res);
+    return 0;
+}
+
+```
+
    
 3. Thread Safety & Logging
     - fungsi `log_operation()`:
