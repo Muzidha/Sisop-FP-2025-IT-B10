@@ -163,6 +163,30 @@ static int logging_open(const char *path, struct fuse_file_info *fi) {
 
 ```
 
+***WWrapping system call `read()`***
+```bash
+static int logging_read(const char *path, char *buf, size_t size, off_t offset,
+                        struct fuse_file_info *fi) {
+    FILE *fp;
+    int res;
+    char fpath[PATH_MAX];
+    char read_info[64];
+
+    get_full_path(fpath, path);
+    fp = fopen(fpath, "r");  // <-- system call dibungkus
+    
+    if (fp == NULL) {
+        log_operation("READ_ERROR", path, strerror(errno));
+        return -errno;
+    }
+
+    fseek(fp, offset, SEEK_SET);
+    res = fread(buf, 1, size, fp);  // <-- dibungkus juga
+    ...
+}
+
+```
+
    
 3. Thread Safety & Logging
     - fungsi `log_operation()`:
