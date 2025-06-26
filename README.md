@@ -99,19 +99,6 @@ Mode eksekusi:
 
 ---
 
-####  **Catatan Tambahan**
-
-* Program memerlukan minimal **3 argumen saat dijalankan**:
-
-  ```
-  ./logging_fs <target_dir> <log_file> <mount_point> [fuse_options...]
-  ```
-* Fungsi `cleanup()` akan membebaskan memori heap dan menutup file log.
-* Penggunaan `realpath()` dan `strdup()` meningkatkan keandalan validasi direktori/log.
-
----
-
-
 Struktur repository:
 ```
 logging-fuse/
