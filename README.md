@@ -299,6 +299,34 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
      res = open(fpath, fi->flags);
      ```
 
+5. Mutex
+
+```bash
+static void log_operation(const char *operation, const char *path, const char *details) {
+    pthread_mutex_lock(&log_mutex);   // Lock sebelum akses log_fp
+
+    if (log_fp) {
+        time_t now;
+        struct tm *timeinfo;
+        char timestamp[80];
+
+        time(&now);
+        timeinfo = localtime(&now);
+        strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", timeinfo);
+
+        fprintf(log_fp, "[%s] %s: %s", timestamp, operation, path);
+        if (details) {
+            fprintf(log_fp, " - %s", details);
+        }
+        fprintf(log_fp, "\n");
+        fflush(log_fp);
+    }
+
+    pthread_mutex_unlock(&log_mutex); // Unlock setelah selesai akses log
+}
+
+```
+
    
 
 
@@ -329,6 +357,10 @@ Sitasi 3
 
 - Nigade, V. V. Efficiently Detecting Use-after-Free Exploits in Multi-Threaded Applications
 
-sitasi 4
+Sitasi 4
 
 - Bovet, D. P., dan Cesati, M. 2006. Understanding the Linux Kernel. 3rd ed. Sebastopol: O’Reilly Media.
+
+Sitasi 5
+- Silberschatz, A., Galvin, P. B., & Gagne, G. (2020). Operating System Concepts (10th ed.)
+- Kerrisk, M. (2010). The Linux Programming Interface: A Linux and UNIX System Programming Handbook.
