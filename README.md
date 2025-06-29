@@ -130,6 +130,11 @@ logging-fuse/
 lapisan perangkat lunak yang menangani semua panggilan sistem yang terkait dengan sistem file Unix standar. Dia
 kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem file. Dalam pengimplementasian yang dibuat Karena sistem ini tidak langsung beroperasi pada path absolut di sistem, path relatif dari FUSE perlu diterjemahkan ke path absolut (`real path`) di `target_dir`.
 
+5. Mutex
+   Mutex (Mutual Exclusion) adalah objek dalam pemrograman multithread yang digunakan untuk mengatur akses ke data bersama agar tidak terjadi konflik. Fungsi utamanya adalah mencegah lebih dari satu thread mengakses bagian kritis (critical section) secara bersamaan, seperti variabel global atau file.
+
+Dengan mutex, hanya satu thread yang bisa masuk ke bagian kritis dalam satu waktu, sementara thread lain harus menunggu. Hal ini penting untuk menghindari race condition, yaitu kesalahan akibat akses bersamaan. Mutex bekerja dengan mekanisme lock dan unlock untuk menjamin integritas data.
+
 **Solusi**
 1. Filesystem in Userspace
 
