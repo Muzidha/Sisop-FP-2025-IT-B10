@@ -132,9 +132,11 @@ kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem 
 
 5. Mutex
    
-   Mutex (Mutual Exclusion) adalah objek dalam pemrograman multithread yang digunakan untuk mengatur akses ke data bersama agar tidak terjadi konflik. Fungsi utamanya adalah mencegah lebih dari satu thread mengakses bagian kritis (critical section) secara bersamaan, seperti variabel global atau file.
+   Menurut Silberschatz, Galvin, dan Gagne dalam buku Operating System Concepts (10th Edition), mutex (mutual exclusion) adalah mekanisme sinkronisasi yang digunakan dalam pemrograman multithread untuk mencegah lebih dari satu thread mengakses bagian kritis kode secara bersamaan. Teknik ini memungkinkan developer untuk mengatur eksekusi eksklusif terhadap sumber daya bersama, seperti file atau variabel global, sehingga dapat menghindari kondisi balapan (race condition).
 
-   Dengan mutex, hanya satu thread yang bisa masuk ke bagian kritis dalam satu waktu, sementara thread lain harus menunggu. Hal ini penting untuk menghindari race condition, yaitu kesalahan akibat akses bersamaan. Mutex bekerja dengan mekanisme lock dan unlock untuk menjamin integritas data.
+   Selain itu, Kerrisk (2010) dalam bukunya The Linux Programming Interface menyatakan bahwa "mutex locks provide a way to protect shared data from being simultaneously accessed by multiple threads." Mutex bekerja dengan cara mengunci (lock) akses terhadap bagian kritis sebelum digunakan, dan membukanya kembali (unlock) setelah selesai, sehingga menjamin integritas data tetap terjaga di lingkungan multithreaded.
+
+
 
 **Solusi**
 1. Filesystem in Userspace
