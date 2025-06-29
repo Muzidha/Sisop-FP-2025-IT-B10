@@ -130,7 +130,7 @@ logging-fuse/
 lapisan perangkat lunak yang menangani semua panggilan sistem yang terkait dengan sistem file Unix standar. Dia
 kekuatan utamanya adalah menyediakan antarmuka umum untuk beberapa jenis sistem file. Dalam pengimplementasian yang dibuat Karena sistem ini tidak langsung beroperasi pada path absolut di sistem, path relatif dari FUSE perlu diterjemahkan ke path absolut (`real path`) di `target_dir`.
 
-5. Mutex
+5. Mutual Exclusion (Mutex)
    
    Menurut Silberschatz, Galvin, dan Gagne dalam buku Operating System Concepts (10th Edition), mutex (mutual exclusion) adalah mekanisme sinkronisasi yang digunakan dalam pemrograman multithread untuk mencegah lebih dari satu thread mengakses bagian kritis kode secara bersamaan. Teknik ini memungkinkan developer untuk mengatur eksekusi eksklusif terhadap sumber daya bersama, seperti file atau variabel global, sehingga dapat menghindari kondisi balapan (race condition).
 
@@ -299,7 +299,7 @@ static int logging_read(const char *path, char *buf, size_t size, off_t offset,
      res = open(fpath, fi->flags);
      ```
 
-5. Mutex
+5. Mutual Exclusion (Mutex)
 
 ```bash
 static void log_operation(const char *operation, const char *path, const char *details) {
